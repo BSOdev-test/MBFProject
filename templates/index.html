@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Multistage Bug Fixing</h1>
+    <form class="submission-form" id="textForm" method="POST">
+        <textarea class ="input" id="userInput" rows="20" placeholder="Paste your code here..." name="userInput" required></textarea>
+        <input type="submit" value="Submit">
+    </form>
+    <div class="response" id="responseContainer" style="display: none;">
+        <pre id="responseText">{{resposta}}</pre>
+    </div>
+</div>
+
+<script>
+    document.getElementById('textForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const userInput = document.getElementById('userInput').value;
+
+        fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'userInput': userInput
+            })
+        })
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const resposta = doc.getElementById('responseText').textContent;
+            document.getElementById('responseText').textContent = resposta;
+            document.getElementById('responseContainer').style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+{% endblock %}

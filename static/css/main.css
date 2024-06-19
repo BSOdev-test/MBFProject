@@ -1,0 +1,150 @@
+/* Reset básico para consistência entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos gerais do corpo */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #333333;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #333333;
+    color: #fffde4;
+    padding: 20px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+/* Navegação */
+nav {
+    background: #333333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Container principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f7f7f7;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 16px;
+}
+
+.response {
+    width: 100%; 
+    margin: 0 auto; 
+    padding: 20px; 
+    border: 1px solid #f7f7f7; 
+    border-radius: 5px;
+    background-color: #ffffff; 
+    overflow: auto; 
+}
+
+/* Rodapé */
+footer {
+    background-color: #333333;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 0;
+}
+
+.input {
+	font-size: 18px;
+	padding: 5px 10px;
+	width: 100%;
+	padding-left: 35px;
+	outline: none;
+	background: #ffffff;
+	color: #000000;
+	border: 1px solid #f7f7f7;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px 0px #E2E2E2;
+	transition: .3s ease;
+}
+
+.input:focus {
+	background: #F2F2F2;
+	border: 1px solid #859398;
+	border-radius: 5px;
+}
+
+.input::placeholder {
+	color: #999999;
+}
+
+h1 {
+    text-align: center;
+    color: #00509e;
+}
+
+h4 {
+    text-align: center;
+    color: #333333;
+}
+
+.submission-form {
+    margin-bottom: 20px;
+}
+
+.submission-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.submission-form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #00509e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.submission-form input[type="submit"]:hover {
+    background-color: #003366;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .search-form input[type="text"] {
+        width: 80%;
+    }
+}
