@@ -1,121 +1,78 @@
-/* Reset básico para consistência entre navegadores */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Estilos gerais do corpo */
+/* Estilo base */
 body {
     font-family: 'Arial', sans-serif;
-    background: #333333;
-    color: #333;
+    background-color: #f7f7f7; /* Cinza Claro */
+    color: #333333; /* Cinza Escuro */
     line-height: 1.6;
-    padding: 20px;
-}
-
-/* Cabeçalho */
-header {
-    background-color: #333333;
-    color: #fffde4;
-    padding: 20px 0;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-header h1 {
     margin: 0;
-    font-size: 2.5em;
+    padding: 0;
 }
 
-/* Navegação */
-nav {
-    background: #333333;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-/* Container principal */
+/* Container */
 .container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
-    background: #f7f7f7;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    border-radius: 16px;
+    background: #ffffff; /* Branco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.response {
-    width: 100%; 
-    margin: 0 auto; 
-    padding: 20px; 
-    border: 1px solid #f7f7f7; 
-    border-radius: 5px;
-    background-color: #ffffff; 
-    overflow: auto; 
-}
-
-/* Rodapé */
-footer {
-    background-color: #333333;
-    color: #ffffff;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 20px;
-}
-
-footer p {
-    margin: 0;
-}
-
-.input {
-	font-size: 18px;
-	padding: 5px 10px;
-	width: 100%;
-	padding-left: 35px;
-	outline: none;
-	background: #ffffff;
-	color: #000000;
-	border: 1px solid #f7f7f7;
-	border-radius: 5px;
-	box-shadow: 3px 3px 2px 0px #E2E2E2;
-	transition: .3s ease;
-}
-
-.input:focus {
-	background: #F2F2F2;
-	border: 1px solid #859398;
-	border-radius: 5px;
-}
-
-.input::placeholder {
-	color: #999999;
-}
-
+/* Título */
 h1 {
     text-align: center;
-    color: #00509e;
-}
-
-h4 {
-    text-align: center;
-    color: #333333;
-}
-
-.submission-form {
+    color: #0a74da; /* Azul Escuro */
+    font-size: 2.5em;
     margin-bottom: 20px;
+}
+
+/* Resumo do Site */
+.site-summary {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.site-summary p {
+    font-size: 1.2em;
+    color: #555555;
+}
+
+/* Mais Informações */
+.more-details {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.more-details p {
+    font-size: 0.8em;
+    color: #555555;
+}
+
+/* Botões de Exemplo */
+.example-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.example-buttons button {
+    background-color: #0a74da; /* Azul Escuro */
+    color: #ffffff; /* Branco */
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.example-buttons button:hover {
+    background-color: #003f5c; /* Azul Escuríssimo */
+}
+
+/* Formulário de Submissão */
+.submission-form {
+    text-align: center;
 }
 
 .submission-form textarea {
@@ -124,27 +81,75 @@ h4 {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
+    margin-bottom: 10px;
 }
 
 .submission-form input[type="submit"] {
-    padding: 10px 20px;
-    background-color: #00509e;
-    color: #fff;
+    background-color: #0a74da; /* Azul Escuro */
+    color: #ffffff; /* Branco */
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    display: block;
-    width: 100%;
-    margin-top: 10px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
 }
 
 .submission-form input[type="submit"]:hover {
-    background-color: #003366;
+    background-color: #003f5c; /* Azul Escuríssimo */
+}
+
+/* Resposta */
+.response {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f0f8ff; /* Azul Claro */
+    border-left: 5px solid #0a74da; /* Azul Escuro */
+    border-radius: 5px;
+}
+
+.response pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Spinner CSS */
+.spinner {
+    display: none;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+.spinner-container{
+    display: none;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background: rgb(0, 0, 0);
+    opacity: 0.5;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .search-form input[type="text"] {
-        width: 80%;
+    .example-buttons button {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
     }
 }

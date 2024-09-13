@@ -1,33 +1,70 @@
 import warnings
 warnings.filterwarnings('ignore')
 import torch
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer
+
+model_path = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+pipe = pipeline("text-generation", model_path, torch_dtype=torch.bfloat16, device_map= "auto")
 
 def bug_fixing(buggycode):
-     
-    pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
-
-    buggyCode = buggycode
+    analyses = phase1(buggycode)
+    response = phase2(buggycode, analyses)
+    return response
+def phase1(buggycode):
     
-    step1 = [
+    prompt = "Given a code snippet with an error, analyze and classify the type of error using contextual information. Error types can be syntax, runtime, logical, type, or compilation errors. Provide a concise classification and explanation. Code:\n" + buggycode
+    
+    chat = [
         {
             "role": "system",
-            "content": "You are a chatbot who can help code.\n"
+            "content": "You are a debugging assistant.\n"
         },
         {
             "role": "user",
-            "content": "You will be given an input. The input, after the line 'Buggy code:', contains a snippet of buggy Python code with a bug on a single line, and maybe unit test information. Given the input, analyze root cause and localize the faulty line by understanding the difference between actual output and expected output. After that, output 5 hypotheses about the fault's location and reason after the line 'Fault hypotheses:'. Rank these hypotheses by probability of success and use the information from the best ranked hypothesis to fix the received code.\n\nBuggy code: " + buggyCode + "\n\nFault hypothesis: \n"
+            "content": prompt
         },
     ]
-    prompt = pipe.tokenizer.apply_chat_template(step1, tokenize=False, add_generation_prompt=True)
-    outputs = pipe(prompt, max_new_tokens=500, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
     
-    responseStep1 = outputs[0]["generated_text"]
+    tokenized_chat = pipe.tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=False)
+    outputs = pipe(tokenized_chat, max_new_tokens=250, do_sample=True, temperature=0.75, top_k=10, top_p=0.95, num_return_sequences=5)
     
-    response = format_text(responseStep1)
+    analyses = []
+    
+    for i in outputs:
+        output = format_text(i["generated_text"])
+        output = extract_text_after_tag(output)
+        analyses.append(output)
+        
+    return analyses
+def phase2 (buggycode, analyses):
+    
+    prompt2 = "Given a code snippet with an error, you will be provided with five analyses that describe potential types of errors in the code. Your objective is to evaluate these analyses and select the one that most accurately identifies the error. Please ensure your choice is based on logical reasoning and programming principles.\nCode:\n" + buggycode + "\n" + "_" * 50 +"\nAnalyses:\n1: " + analyses[0] + "\n" + "_" * 50 + "\n2: " + analyses[1] + "\n" + "_" * 50 + "\n3: " + analyses[2] + "\n" + "_" * 50 + "\n4: " + analyses[3] + "\n" + "_" * 50 + "\n5: " + analyses[4]
+    
+    chat2 = [
+        {
+            "role": "system",
+            "content": prompt2
+        },
+    ]
+    
+    tokenized_chat2 = pipe.tokenizer.apply_chat_template(chat2, tokenize=False, add_generation_prompt=False)
+    outputs2 = pipe(tokenized_chat2, max_new_tokens=250, do_sample=True, temperature=0.75, top_k=10, top_p=0.95)
+    response = format_text(outputs2[0]["generated_text"])
+    
+    # response = extract_text_after_tag(response)
     
     return response
+def extract_text_after_tag(text):
+ 
+    tag = '<|assistant|>'
 
+    tag_index = text.find(tag)
+    
+    if tag_index != -1:
+        return text[tag_index + len(tag):].strip()
+    else:
+        return ""  # Return an empty string if the tag is not found
 def format_text(text):
     import re
 
@@ -64,3 +101,10 @@ def format_text(text):
     formatted_text = '\n'.join(formatted_lines)
 
     return formatted_text
+def remove_text(text1, text2):
+    if text1 in text2:
+        print("Removed")
+        return text2.replace(text1, '', 1).strip()  # Replace the first occurrence of text1 and remove leading/trailing spaces
+    else:
+        print("Not found")
+        return text2  # Return text2 unchanged if text1 is not found
